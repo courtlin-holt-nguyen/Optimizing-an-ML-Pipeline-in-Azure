@@ -20,7 +20,7 @@ url_paths = [
     "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
             ]
 
-ds = Dataset.Tabular.from_delimited_files(path=url_paths)
+ds = TabularDatasetFactory.from_delimited_files(path=url_paths)
 
 run = Run.get_context(allow_offline=True)
 
@@ -58,6 +58,8 @@ x, y = clean_data(ds)
 clean_data = x
 clean_data['y'] = y 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state=123)
+
+# ds = x.join(y)
 
 
 def main():
