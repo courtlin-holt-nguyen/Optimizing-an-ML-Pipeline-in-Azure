@@ -1,0 +1,57 @@
+2021/07/25 00:06:17 Starting App Insight Logger for task:  runTaskLet
+2021/07/25 00:06:17 Version: 3.0.01655.0006 Branch: .SourceBranch Commit: b254912
+2021/07/25 00:06:17 Attempt 1 of http call to http://10.0.0.8:16384/sendlogstoartifacts/info
+2021/07/25 00:06:17 Send process info logs to master server succeeded
+2021/07/25 00:06:17 Attempt 1 of http call to http://10.0.0.8:16384/sendlogstoartifacts/status
+2021/07/25 00:06:17 Send process info logs to master server succeeded
+[2021-07-25T00:06:17.335375] Entering context manager injector.
+[2021-07-25T00:06:17.610095] context_manager_injector.py Command line Options: Namespace(inject=['ProjectPythonPath:context_managers.ProjectPythonPath', 'RunHistory:context_managers.RunHistory', 'TrackUserError:context_managers.TrackUserError'], invocation=['train.py', '--batch_size', '16', '--keep_probability', '0.0888241994845855', '--learning_rate', '12.622335740739464'])
+Script type = None
+[2021-07-25T00:06:17.613023] Entering Run History Context Manager.
+[2021-07-25T00:06:18.266237] Current directory: /mnt/batch/tasks/shared/LS_root/jobs/courtlin-udacity/azureml/hd_0100743b-5cbf-43be-ad7d-f78cb11e2fe9_8/wd/azureml/HD_0100743b-5cbf-43be-ad7d-f78cb11e2fe9_8
+[2021-07-25T00:06:18.266452] Preparing to call script [train.py] with arguments:['--batch_size', '16', '--keep_probability', '0.0888241994845855', '--learning_rate', '12.622335740739464']
+[2021-07-25T00:06:18.266473] After variable expansion, calling script [train.py] with arguments:['--batch_size', '16', '--keep_probability', '0.0888241994845855', '--learning_rate', '12.622335740739464']
+
+2021/07/25 00:06:22 Not exporting to RunHistory as the exporter is either stopped or there is no data.
+Stopped: false
+OriginalData: 1
+FilteredData: 0.
+/opt/miniconda/lib/python3.6/site-packages/azureml/dataprep/api/dataflow.py:722: UserWarning: Your pandas and pyarrow versions are incompatible. Please install pyarrow>=0.12.0 for improved performance of to_pandas_dataframe. You can ensure the correct version is installed by running: pip install pyarrow>=0.12.0 --upgrade
+  warnings.warn('Your pandas and pyarrow versions are incompatible. '
+usage: train.py [-h] [--C C] [--max_iter MAX_ITER]
+train.py: error: unrecognized arguments: --batch_size 16 --keep_probability 0.0888241994845855 --learning_rate 12.622335740739464
+
+
+[2021-07-25T00:06:24.581303] The experiment failed with exit code: 2. Finalizing run...
+Cleaning up all outstanding Run operations, waiting 900.0 seconds
+2 items cleaning up...
+Cleanup took 0.09226131439208984 seconds
+Traceback (most recent call last):
+  File "train.py", line 84, in <module>
+    main()
+  File "train.py", line 70, in main
+    args = parser.parse_args()
+  File "/opt/miniconda/lib/python3.6/argparse.py", line 1733, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/opt/miniconda/lib/python3.6/argparse.py", line 2389, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/opt/miniconda/lib/python3.6/argparse.py", line 2376, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+[2021-07-25T00:06:24.797695] Finished context manager injector with SystemExit exception.
+2021/07/25 00:06:25 Skipping parsing control script error. Reason: Error json file doesn't exist. This most likely means that no errors were written to the file. File path: /mnt/batch/tasks/workitems/752e86e8-c724-4f3d-960a-05391e793a9d/job-1/hd_0100743b-5cbf-43b_735233b8-e749-41e2-a17f-d5a8263289c0/wd/runTaskLetTask_error.json
+2021/07/25 00:06:25 Wrapper cmd failed with err: exit status 2
+2021/07/25 00:06:25 Attempt 1 of http call to http://10.0.0.8:16384/sendlogstoartifacts/status
+2021/07/25 00:06:25 Send process info logs to master server succeeded
+2021/07/25 00:06:25 mpirun version string: {
+Intel(R) MPI Library for Linux* OS, Version 2018 Update 3 Build 20180411 (id: 18329)
+Copyright 2003-2018 Intel Corporation.
+}
+2021/07/25 00:06:25 MPI publisher: intel ; version: 2018
+2021/07/25 00:06:25 Not exporting to RunHistory as the exporter is either stopped or there is no data.
+Stopped: false
+OriginalData: 2
+FilteredData: 0.
+2021/07/25 00:06:25 Process Exiting with Code:  2
+2021/07/25 00:06:26 All App Insights Logs was sent successfully or the close timeout of 20 was reached
