@@ -55,8 +55,8 @@ def clean_data(data):
 x, y = clean_data(ds)
 
 # TODO: Split data into train and test sets.
-clean_data = x
-clean_data['y'] = y 
+# cleaned_data = x
+# cleaned_data['y'] = y 
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state=123)
 
 # ds = x.join(y)
