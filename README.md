@@ -411,6 +411,7 @@ One area for improvement would be to address the class imbalance within the data
 ## Proof of cluster clean up
 **If you did not delete your compute cluster in the code, please complete this section. Otherwise, delete this section.**
 **Image of cluster marked for deletion**
+
 The cluster was automatically deleted at the end of the experiment using the following code:
 cpu_cluster.delete()
 
