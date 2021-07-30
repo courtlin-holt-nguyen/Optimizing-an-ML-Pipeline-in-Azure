@@ -6,14 +6,14 @@ This HyperDrive optimized model was then compared to an Azure AutoML run to dete
 
 ## Summary
 **In 1-2 sentences, explain the problem statement: e.g "This dataset contains data about... we seek to predict..."**
-The dataset for this project can be found on the UCI Machine Learning repository. The data is a collection of data points related to the direct marketing efforts of a Portugese bank as it attempted to sell a product, in this case a term deposit, to its customers over the phone. 
-We seek to predict whether a customer accepted the bank's product offer or not (variable y). This is a classification task. 
+The dataset for this project can be found on the UCI Machine Learning repository. The data is a collection of data points related to the direct marketing efforts of a Portugese bank as it attempted to sell a product, in this case a term deposit, to its customers over the phone.
+We seek to predict whether a customer accepted the bank's product offer or not (variable y). This is a classification task.
 
 **In 1-2 sentences, explain the solution: e.g. "The best performing model was a ..."**
 The best performing model was a VotingEnsemble model produced by Azure AutoML with an accuracy of: 91.772% from run Id: AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_103
 
 The accuracy of the SciKit-Learn logistic regression model was very similar, with an accuracy of: 91.183% from run Id: HD_a832a5c4-7c1c-4ac0-b1fd-f3c81ecc34e3_0 with the following metrics: Best Metrics: {'Regularization Strength:': 1.0, 'Max iterations:': 20, 'accuracy': 0.9118361153262519}
-  
+
 
 ## Scikit-learn Pipeline
 **Explain the pipeline architecture, including data, hyperparameter tuning, and classification algorithm.**
@@ -21,7 +21,7 @@ The accuracy of the SciKit-Learn logistic regression model was very similar, wit
 PIPELINE ARCHITECTURE
 The pipeline architecture used for this project included a SciKit-Learn model optimized with HyperDrive and an AutoML model that automatically generated and evaluated various classification models.
 
-The SciKit-Learn Logistic Regression model was defined in a train.py file and then fed to the HyperDrive with a set of discrete hyperparameters to run. Within the train.py file, TabularDatasetFactory was used to import the banking data, then a custom data cleaning function was called on the data before splitting it into train and test sets and sending it to the Logistic Regression model. HyperDrive attempted to optimize the model by using various values for C (the inverse of the regularization strength) and max_iter (the maximum number of iterations to test). 
+The SciKit-Learn Logistic Regression model was defined in a train.py file and then fed to the HyperDrive with a set of discrete hyperparameters to run. Within the train.py file, TabularDatasetFactory was used to import the banking data, then a custom data cleaning function was called on the data before splitting it into train and test sets and sending it to the Logistic Regression model. HyperDrive attempted to optimize the model by using various values for C (the inverse of the regularization strength) and max_iter (the maximum number of iterations to test).
 The python SDK inside a Notebook file was used to provision a ComputerCluster, configure and run HyperDrive to test various C and max_iter combinations and then save the best model that was found. RandomParameterSampling and a Bandit early terminiation policy were used to reduce the optimization time and cost.
 
 The best Logistic Regression model had the following parameters:
@@ -35,7 +35,7 @@ The final 'VotingEnsemble' consisted of:
   'ensembled_algorithms': "['XGBoostClassifier', 'LightGBM', 'XGBoostClassifier', 'XGBoostClassifier', 'XGBoostClassifier', 'XGBoostClassifier', 'XGBoostClassifier', 'XGBoostClassifier']",
   'ensembled_run_ids': "['AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_88', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_69', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_94', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_30', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_39', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_97', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_53', 'AutoML_c4580b80-2401-4a12-8df3-0dccd3a4570d_57']",
   'ensemble_weights': '[0.2727272727272727, 0.09090909090909091, 0.18181818181818182, 0.09090909090909091, 0.09090909090909091, 0.09090909090909091, 0.09090909090909091, 0.09090909090909091]
- 
+
 DATASET
 There are 17 attributes in the dataset, as described by UCI:
 
@@ -76,11 +76,13 @@ Output variable (desired target):
 The benefits of the RandomParameterSampling sampler compared to other methods such as GridSearch, is that Random Sampling is less computationally intense, which saves money and time, while still providing very good tuned results. With this method, hyperparameter values are randomly chosen from the defined search space and low-performing runs can be terminated early to further save time and money.
 
 **What are the benefits of the early stopping policy you chose?**
-Early stopping policies terminate poorly performing runs to improve computational efficiency.  The benefit of the Bandit early terminiation policy is that it will end runs when the primary metric falls outside of a specified range of the most successful run. 
+Early stopping policies terminate poorly performing runs to improve computational efficiency.  The benefit of the Bandit early terminiation policy is that it will end runs when the primary metric falls outside of a specified range of the most successful run.
 
 ## AutoML
 **In 1-2 sentences, describe the model and hyperparameters generated by AutoML.**
-The AutoML method chose a VotingEnsemble comprised of 8 Classifier models (7 XGBoostClassifier models and 1 LightGMB Classifier model) with various weights. The specific models and their hyperparameters were:
+The AutoML method chose a VotingEnsemble comprised of 8 Classifier models (7 XGBoostClassifier models and 1 LightGMB Classifier model) with various weights. The specific models and their hyperparameters are defined below. In a Voting Ensemble model, each of the submodels generates a classification and then the various model results are averaged together using various weights to arrive at a final determination.
+
+The two primary classification models used by AutoML were XGBoostClassifier and LightGBMClassifier, both are decision tree algorithms. XGBoostClassifier (Extreme Gradient Boosting) is a gradient descent boosting classification algorithm that sequentially builds decision trees, with each new tree attempting to correct the errors of prior trees. Light GBM (Light Gradient Boosting Machine) uses a similar type of sequential tree construction process but trees grow based on leaf-level splits, instead of level-wise splits like other gradient boosting tree methods.   
 
 prefittedsoftvotingclassifier
 {'estimators': ['88', '69', '94', '30', '39', '97', '53', '57'],
@@ -395,18 +397,22 @@ prefittedsoftvotingclassifier
  'subsample': 0.6,
  'tree_method': 'auto',
  'verbose': -10,
- 'verbosity': 0} 
+ 'verbosity': 0}
 
 ## Pipeline comparison
 **Compare the two models and their performance. What are the differences in accuracy? In architecture? If there was a difference, why do you think there was one?**
-There was only a slight difference in Accuracy between the Hyperdrive/SciKit-Learn model and the AutoML model. The AutoML model's accuracy was 91.754% while the HyperDrive/SciKit-Learn model's Accuracy was 91.183%
-The SciKit-Learn model used a specified model, Logistic Regression, and a set of defined hyperparameters to test. In contrast, the AutoML method tried nearly 100 different classification models with various hyperparameters as well as different ensembles of models to find the optimal one.
- 
-The difference with the SciKit-Learn method was that it required the user to define the model and hyperparameters, which requires a certain level of expertise with classification problems. On the other hand, the AutoML method would allow someone with very little knowledge of classification problems to test a wide variety of models and ensembles of models. However, the time and computation expense required to run the AutoML model was significantly greater than the Hyperdrive/SciKit-Learn method for only a small improvement in accuracy.   
+
+There was only a slight difference in Accuracy between the Hyperdrive/SciKit-Learn model and the AutoML model. The AutoML model's accuracy was 91.754% while the HyperDrive/SciKit-Learn model's Accuracy was 91.183%.
+
+The SciKit-Learn model used a specified model, Logistic Regression, and a set of defined hyperparameters to test. In contrast, the AutoML method tried nearly 100 different classification models with various hyperparameters as well as different ensembles of models to find the optimal one. The variety of models that AutoML tried allowed it to find a slightly more accurate model compared to the the SciKit-Learn/HyperDrive pipeline, which only tried one algorithm and a small number of hyperparameters.
+
+The difference with the SciKit-Learn method was that it required the user to define the model and hyperparameters, which requires a certain level of expertise with classification problems and knowledge of reasonable hyperparameters to test. On the other hand, the AutoML method would allow someone with very little knowledge of classification problems to test a wide variety of models and ensembles of models. However, the time and computation expense required to run the AutoML model was significantly greater than the Hyperdrive/SciKit-Learn method for only a small improvement in accuracy. When the user has a good idea of which algorithm is best suited to a particular problem, the HyperDrive optimized pipeline is likely to give relatively accurate results with less time and expense vs. AutoML. There is a risk though that the user will select a sub-optimal algorithm or hyperparameters and obtain a model that is significantly worse than the one AutoML would have found.
+
+Explainability is difference between the pipelines. The AutoML's voting ensemble method is more complicated to explain to end users ( finding the sub-models and their parameters wtihin Azure was not easy) vs. a similar logistic regression model with limited hyperparameters. In situations where decision makers need to understand and explain the algorithm used, a simple logistic regression with HyperDrive optimization might be preferable to an exotic AutoML ensemble model.      
 
 ## Future work
 **What are some areas of improvement for future experiments? Why might these improvements help the model?**
-One area for improvement would be to address the class imbalance within the dataset before training the models. As part of the AutoML process, the dataset was checked for class imbalance, which occurs when the number of samples in the minority class (the YES results in this case) are less than 20% of the total samples. AutoML detected that only 11% of the samples in the dataset were Yes results. Training the model with such an imbalanced dataset could lead the resulting model to be perceived as more accurate than it really is. To address class imbalance, the model could be optimized for a different primary metric, such as AUC_weighted. 
+One area for improvement would be to address the class imbalance within the dataset before training the models. As part of the AutoML process, the dataset was checked for class imbalance, which occurs when the number of samples in the minority class (the YES results in this case) are less than 20% of the total samples. AutoML detected that only 11% of the samples in the dataset were Yes results. Training the model with such an imbalanced dataset could lead the resulting model to be perceived as more accurate than it really is. To address class imbalance, the model could be optimized for a different primary metric, such as AUC_weighted.
 
 ## Proof of cluster clean up
 **If you did not delete your compute cluster in the code, please complete this section. Otherwise, delete this section.**
